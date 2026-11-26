@@ -4,6 +4,10 @@
 
 **POS transaccional ACID en centavos enteros, control atómico de inventario, libro contable inmutable (append-only con contra-asientos) y cola offline-first con Dexie.js.**
 
+## Qué hace este proyecto
+
+**CajaLedger POS** es un sistema de punto de venta y contabilidad para comercios. Permite registrar ventas rápidas descontando stock de forma atómica (sin errores de redondeo ni sobreventa), seguir cobrando sin internet guardando las ventas en IndexedDB para sincronizarlas al reconectar, anular ventas generando contra-asientos contables inmutables y exportar recibos/reportes en PDF y CSV.
+
 - Demo interactiva: [`/demo`](http://localhost:3009/demo) (15 productos + 14 días de historial contable)
 - Documentación OpenAPI 3.1: [`/api/docs`](http://localhost:3009/api/docs)
 
