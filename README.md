@@ -1,6 +1,6 @@
 # CajaLedger POS
 
-[![CI](https://github.com/diego/cajaledger-pos/actions/workflows/ci.yml/badge.svg)](.github/workflows/ci.yml)
+[![CI](https://github.com/vejjeto/cajaledger-pos/actions/workflows/ci.yml/badge.svg)](.github/workflows/ci.yml)
 
 **POS transaccional ACID en centavos enteros, control atómico de inventario, libro contable inmutable (append-only con contra-asientos) y cola offline-first con Dexie.js.**
 
