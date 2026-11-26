@@ -31,6 +31,7 @@ import {
 import { createDatabase } from "@/db";
 import { seedDatabase } from "@/db/seed";
 import { parseEnv } from "@/lib/env";
+import { translations } from "@/lib/i18n";
 import { buildCajaLedgerOpenApiSpec } from "@/lib/openapi";
 import { describe, expect, it } from "vitest";
 
@@ -485,5 +486,17 @@ describe("CajaLedger — Exports (CSV, PDF) & Observability Contracts", () => {
     expect(Object.keys(spec.paths as Record<string, unknown>)).toContain(
       "/api/sales/{id}/void",
     );
+  });
+
+  it("maintains full ES/EN i18n dictionary key parity with non-empty values", () => {
+    const esKeys = Object.keys(translations.es).sort();
+    const enKeys = Object.keys(translations.en).sort();
+    expect(esKeys).toEqual(enKeys);
+
+    for (const key of esKeys) {
+      const k = key as keyof typeof translations.es;
+      expect(translations.es[k].trim().length).toBeGreaterThan(0);
+      expect(translations.en[k].trim().length).toBeGreaterThan(0);
+    }
   });
 });

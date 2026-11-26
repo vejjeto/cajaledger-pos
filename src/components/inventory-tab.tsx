@@ -5,6 +5,7 @@ import { UiModal } from "@/components/ui/modal";
 import { useUiToast } from "@/components/ui/toast";
 import type { ProductRecord } from "@/contracts/schemas";
 import { calculateGrossMarginPercent, formatCents } from "@/core/money";
+import { useLocale } from "@/lib/i18n";
 import {
   type ColumnDef,
   type SortingState,
@@ -24,6 +25,7 @@ interface InventoryTabProps {
 
 export function InventoryTab({ products, onUpdated }: InventoryTabProps) {
   const { pushToast } = useUiToast();
+  const { t } = useLocale();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState("");
 
@@ -134,12 +136,12 @@ export function InventoryTab({ products, onUpdated }: InventoryTabProps) {
             }}
           >
             <PackagePlus className="h-3.5 w-3.5" />
-            Restock
+            {t.restock}
           </UiButton>
         ),
       },
     ],
-    [],
+    [t.restock],
   );
 
   const table = useReactTable({
@@ -238,7 +240,7 @@ export function InventoryTab({ products, onUpdated }: InventoryTabProps) {
         <input
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Filtrar inventario por SKU, nombre o categoría..."
+          placeholder={t.filterPlaceholder}
           className="w-full max-w-sm rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-sm outline-none focus:border-indigo-500 dark:border-zinc-800 dark:bg-zinc-900"
         />
         <div className="flex items-center gap-2">
@@ -247,11 +249,11 @@ export function InventoryTab({ products, onUpdated }: InventoryTabProps) {
             className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-300 px-3 text-xs font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
           >
             <Download className="h-3.5 w-3.5" />
-            Exportar CSV
+            {t.exportCsv}
           </a>
           <UiButton size="md" onClick={() => setCreateOpen(true)}>
             <PlusCircle className="h-4 w-4" />
-            Nuevo Producto
+            {t.newProduct}
           </UiButton>
         </div>
       </div>

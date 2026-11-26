@@ -14,6 +14,7 @@ import {
   formatCents,
 } from "@/core/money";
 import type { OfflineQueueStore, PendingSaleRecord } from "@/core/offline-db";
+import { useLocale } from "@/lib/i18n";
 import { usePosStore } from "@/store/pos-store";
 import {
   Banknote,
@@ -61,6 +62,7 @@ export function PosTab({
   onRefreshPending,
   onSaleCommitted,
 }: PosTabProps) {
+  const { t } = useLocale();
   const { pushToast } = useUiToast();
   const {
     cart,
@@ -446,7 +448,7 @@ export function PosTab({
         <div className="space-y-3 border-t border-zinc-200 pt-3 dark:border-zinc-800">
           <div>
             <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-zinc-500">
-              Método de pago
+              {t.paymentMethod}
             </p>
             <div className="grid grid-cols-3 gap-1.5">
               {PAYMENT_OPTIONS.map((opt) => (
@@ -461,7 +463,7 @@ export function PosTab({
                   }`}
                 >
                   {opt.icon}
-                  <span>{opt.label}</span>
+                  <span>{t[opt.value]}</span>
                 </button>
               ))}
             </div>
@@ -469,23 +471,23 @@ export function PosTab({
 
           <div className="space-y-1.5 rounded-xl bg-zinc-100/80 p-3 text-xs dark:bg-zinc-950/80">
             <div className="flex justify-between text-zinc-500">
-              <span>Subtotal</span>
+              <span>{t.subtotal}</span>
               <span className="font-mono">
                 {formatCents(totals.subtotalCents)}
               </span>
             </div>
             <div className="flex justify-between text-zinc-500">
-              <span>IVA (16%)</span>
+              <span>{t.tax}</span>
               <span className="font-mono">{formatCents(totals.taxCents)}</span>
             </div>
             <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
-              <span>Margen bruto est.</span>
+              <span>{t.estGrossMargin}</span>
               <span className="font-mono">
                 {formatCents(totals.profitCents)} ({totals.grossMarginPercent}%)
               </span>
             </div>
             <div className="flex justify-between border-t border-zinc-200 pt-2 text-base font-bold dark:border-zinc-800">
-              <span>Total</span>
+              <span>{t.total}</span>
               <span className="font-mono text-indigo-600 dark:text-indigo-400">
                 {formatCents(totals.totalCents)}
               </span>
@@ -503,12 +505,12 @@ export function PosTab({
             {isOffline ? (
               <>
                 <WifiOff className="h-4 w-4" />
-                Guardar Venta Offline (F2)
+                {t.saveOfflineSale}
               </>
             ) : (
               <>
                 <CheckCircle2 className="h-4 w-4" />
-                Cobrar Venta (F2)
+                {t.chargeSale}
               </>
             )}
           </UiButton>

@@ -2,11 +2,13 @@
 
 import { UiButton } from "@/components/ui/button";
 import { HealthBadge } from "@/components/ui/health-badge";
+import { LanguageToggle } from "@/components/ui/language-toggle";
 import { useUiToast } from "@/components/ui/toast";
 import type { ProductRecord } from "@/contracts/schemas";
 import { type PendingSaleRecord, getOfflineStore } from "@/core/offline-db";
 import { syncPendingSales } from "@/core/offline-sync";
 import type { AnalyticsSummary } from "@/core/sales-service";
+import { useLocale } from "@/lib/i18n";
 import { type ActiveTab, usePosStore } from "@/store/pos-store";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -31,6 +33,7 @@ import { PosTab } from "./pos-tab";
 export function CajaShell() {
   const queryClient = useQueryClient();
   const { pushToast } = useUiToast();
+  const { t } = useLocale();
   const {
     activeTab,
     setActiveTab,
@@ -175,15 +178,15 @@ export function CajaShell() {
   ).length;
 
   const tabs: { id: ActiveTab; label: string; icon: React.ReactNode }[] = [
-    { id: "pos", label: "POS Caja", icon: <ShoppingBag className="h-4 w-4" /> },
+    { id: "pos", label: t.tabPos, icon: <ShoppingBag className="h-4 w-4" /> },
     {
       id: "inventory",
-      label: "Inventario",
+      label: t.tabInventory,
       icon: <Boxes className="h-4 w-4" />,
     },
     {
       id: "finance",
-      label: "Finanzas & Libro",
+      label: t.tabFinance,
       icon: <BookOpen className="h-4 w-4" />,
     },
   ];
@@ -205,9 +208,7 @@ export function CajaShell() {
                   ACID · Centavos · Offline-First
                 </span>
               </div>
-              <p className="text-[11px] text-zinc-500">
-                POS transaccional con idempotencia &amp; libro contable
-              </p>
+              <p className="text-[11px] text-zinc-500">{t.subtitle}</p>
             </div>
           </div>
 
@@ -218,7 +219,7 @@ export function CajaShell() {
               onClick={() => void openDemoBusiness()}
             >
               <Sparkles className="h-3.5 w-3.5 text-indigo-500" />
-              Abrir Negocio Demo
+              {t.openDemo}
             </UiButton>
 
             <button
@@ -233,12 +234,12 @@ export function CajaShell() {
               {isEffectiveOffline ? (
                 <>
                   <WifiOff className="h-3.5 w-3.5" />
-                  Corte simulado (Offline)
+                  {t.simulatedOffline}
                 </>
               ) : (
                 <>
                   <Wifi className="h-3.5 w-3.5" />
-                  Simular corte de internet
+                  {t.simulateOffline}
                 </>
               )}
             </button>
@@ -259,10 +260,12 @@ export function CajaShell() {
               ) : (
                 <CloudOff className="h-3.5 w-3.5" />
               )}
-              <span>Cola: {pendingSales.length}</span>
+              <span>
+                {t.queue}: {pendingSales.length}
+              </span>
               {conflictCount > 0 && (
                 <span className="rounded bg-rose-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
-                  {conflictCount} conflicto
+                  {conflictCount} {t.conflict}
                 </span>
               )}
             </button>
@@ -276,13 +279,15 @@ export function CajaShell() {
               className="hidden h-8 items-center gap-1 rounded-lg border border-zinc-200 px-2.5 text-xs font-medium text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900 md:inline-flex"
             >
               <FileCode2 className="h-3.5 w-3.5 text-indigo-400" />
-              API Docs
+              {t.apiDocs}
             </a>
+
+            <LanguageToggle />
 
             <button
               type="button"
               onClick={toggleTheme}
-              aria-label="Cambiar tema claro u oscuro"
+              aria-label={t.toggleThemeAria}
               className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900"
             >
               <Sun className="h-4 w-4 dark:hidden" />
